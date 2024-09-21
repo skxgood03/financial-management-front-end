@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const requests = axios.create({
-    baseURL:"" //这里放接口请求域名
+    baseURL:"http://127.0.0.1:8000" //这里放接口请求域名
 }) 
 
 

@@ -1,70 +1,98 @@
 <template>
-    <dv-loading v-if="loading1"></dv-loading>
-    <div ref="refecharts" class="interior" v-else>
-    </div>
+  <div ref="refecharts" class="interior"></div>
 </template>
 
 <script lang="ts">
-import { info3 } from "./api"
-import { ref, onMounted, nextTick, watch } from "vue"
+import {info3} from "./api"
+import {ref, onMounted, nextTick, watch} from "vue"
 import * as echarts from 'echarts';
 
 export default {
-    setup() {
-        const loading1 = ref(true)
-        const refecharts = ref()
-        const echartsfun = ({data}: any) => {
-     
-            const myChart = echarts.init(refecharts.value);
-            const option = {
-                xAxis: {
-                    type: 'category',
-                    data: Object.keys(data)
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [
-                    {
-                        data: Object.values(data),
-                        type: 'bar'
-                    }
-                ]
-            };
-
-            option && myChart.setOption(option);
-        }
-        const getdata = async () => {
-            const { data } = await info3()
-            if (data.code == 200) {
-                loading1.value = false
-                nextTick(() => {  //当loadging切换时，dom变化，执行nexttick函数
-                    if (refecharts.value) {  //判断是否获取到dom，如果没有获取到就不执行，只执行onmounted里的getdata，防止调试时因为获取不到dom而报错
-                        echartsfun(data)
-                    }
-                })
-
-            }
-
-        }
-
-        onMounted(() => {
-            setInterval(() => {
-                getdata()
-            }, 360000)
-            getdata()
-        })
-
-        return {
-            refecharts, loading1
-        }
+  props: {
+    data: {
+      type: Object,
+      required: true
     }
+  },
+  setup(props: any) {
+
+    const refecharts = ref()
+    const echartsfun = () => {
+      const transactionPartners = props.data.get_expense_by_partner.map((item: any) => item.transaction_partner)
+      const total_expense = props.data.get_expense_by_partner.map((item: any) => item.total_expense)
+      const expense_count = props.data.get_expense_by_partner.map((item: any) => item.expense_count) // 添加支出次数数据
+      const totalExpense = props.data.get_expense_by_partner.reduce((sum: number, item: any) => sum + item.total_expense, 0);
+      const myChart = echarts.init(refecharts.value);
+      const option = {
+        title: {
+          text: '正常支出',
+          subtext: `总支出 (总计: ${totalExpense} 元)`,
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          },
+          backgroundColor: '#fff', // 悬浮框背景色
+          borderColor: '#000', // 悬浮框边框颜色
+          borderWidth: 1, // 悬浮框边框宽度
+          textStyle: { // 悬浮框文字样式
+            color: '#000',
+            fontSize: 12
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: transactionPartners
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: '金额（元）' // Y轴名称
+          },
+          {
+            type: 'value',
+            name: '次数' // 第二个Y轴，用于展示支出次数
+          }
+        ],
+        series: [
+          {
+            name: '支出金额',
+            type: 'bar',
+            data: total_expense,
+            yAxisIndex: 0 // 对应第一个Y轴（金额）
+          },
+          {
+            name: '支出次数',
+            type: 'line',
+            data: expense_count,
+            yAxisIndex: 1 // 对应第二个Y轴（次数）
+          }
+        ]
+      };
+
+      option && myChart.setOption(option);
+    }
+    watch(() => props.data, () => {
+      echartsfun()
+    }, {deep: true})  //开启深度监听，当props更新时，更新echarts图表
+
+    onMounted(() => {
+      echartsfun()
+    })
+
+    return {
+      refecharts
+    }
+  }
 }
 </script>
 
 <style scoped>
 .interior {
-    height: 330px;
-    width: 615px
+  height: 330px;
+  width: 615px;
+top:20px;
 }
 </style>

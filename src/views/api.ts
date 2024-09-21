@@ -3,28 +3,28 @@ import requests from "@/utlis/requests";
 // 折线图接口
 export function info(){
     return requests({
-        url:"/api/info",
+        url:"/total_consumption",
         method:"GET"
     })
 }
 // 饼图接口
 export function info1(){
     return requests({
-        url:"/api/info1",
+        url:"/total_consumption",
         method:"GET"
     })
 }
 // //环形图接口
 export function info2(){
     return requests({
-        url:"/api/info2",
+        url:"/total_consumption",
         method:"GET"
     })
 }
 // //柱状图接口
 export function info3(){
     return requests({
-        url:"/api/info3",
+        url:"/total_consumption",
         method:"GET"
     })
 }

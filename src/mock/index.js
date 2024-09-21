@@ -48,61 +48,6 @@ Mock.mock("/api/info2", "get", {  //环形图接口
       Sun: 8987,
     },
   });
-  Mock.mock("/api/info4", "get", {
-    code: 200,
-    data: {
-      Tue: 123,
-      Wed: 231,
-      Thu: 2142,
-      Fri: 432,
-      Sat: 9271,
-      Sun: 8987,
-    },
-  });
-  Mock.mock("/api/info5", "get", {
-    code: 200,
-    data: {
-      Tue: 123,
-      Wed: 231,
-      Thu: 2142,
-      Fri: 432,
-      Sat: 9271,
-      Sun: 8987,
-    },
-  });
-  Mock.mock("/api/info6", "get", {
-    code: 200,
-    data: {
-      Tue: 123,
-      Wed: 231,
-      Thu: 2142,
-      Fri: 432,
-      Sat: 9271,
-      Sun: 8987,
-    },
-  });
-  Mock.mock("/api/info7", "get", {
-    code: 200,
-    data: {
-      Tue: 123,
-      Wed: 231,
-      Thu: 2142,
-      Fri: 432,
-      Sat: 9271,
-      Sun: 8987,
-    },
-  });
-  Mock.mock("/api/info8", "get", {
-    code: 200,
-    data: {
-      Tue: 123,
-      Wed: 231,
-      Thu: 2142,
-      Fri: 432,
-      Sat: 9271,
-      Sun: 8987,
-    },
-  });
   setInterval(() => {
     value+=50;
   }, 1000);
