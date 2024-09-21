@@ -1,6 +1,6 @@
 <template>
-    <dv-loading v-if="loading1"></dv-loading>
-    <div ref="refecharts" class="interior" v-else>
+
+    <div ref="refecharts" class="interior">
     </div>
 </template>
 
@@ -10,55 +10,60 @@ import { ref, onMounted, nextTick, watch } from "vue"
 import * as echarts from 'echarts';
 
 export default {
-    setup() {
-        const loading1 = ref(true)
-        const refecharts = ref()
-        const echartsfun = ({data}: any) => {
-     
-            const myChart = echarts.init(refecharts.value);
-            const option = {
-                xAxis: {
-                    type: 'category',
-                    data: Object.keys(data)
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [
-                    {
-                        data: Object.values(data),
-                        type: 'bar'
-                    }
-                ]
-            };
-
-            option && myChart.setOption(option);
-        }
-        const getdata = async () => {
-            const { data } = await info3()
-            if (data.code == 200) {
-                loading1.value = false
-                nextTick(() => {  //当loadging切换时，dom变化，执行nexttick函数
-                    if (refecharts.value) {  //判断是否获取到dom，如果没有获取到就不执行，只执行onmounted里的getdata，防止调试时因为获取不到dom而报错
-                        echartsfun(data)
-                    }
-                })
-
-            }
-
-        }
-
-        onMounted(() => {
-            setInterval(() => {
-                getdata()
-            }, 360000)
-            getdata()
-        })
-
-        return {
-            refecharts, loading1
-        }
+  props: {
+    data: {
+      type: Object,
+      required: true
     }
+  },
+  setup(props: any) {
+    const loading1 = ref(true)
+    const refecharts = ref()
+    const echartsfun = () => {
+      const datas = props.data.get_expense_by_method
+      const myChart = echarts.init(refecharts.value);
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: (params: any) => {
+      // 自定义 tooltip 显示，包含支出金额和支出次数
+      return `${params.name}<br/>支出金额: ${params.value} 元<br/>支出次数: ${params.data.expense_count} 次`;
+    }
+        },
+        legend: {
+          top: '1%',
+          left: 'center'
+        },
+        series: [
+          {
+            name: 'Access From',
+            type: 'pie',
+            radius: ["40%", "60%"],
+            data: datas ,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      };
+      myChart.setOption(option);
+    }
+    watch(() => props.data, () => {
+      echartsfun()
+    }, {deep: true})  //开启深度监听，当props更新时，更新echarts图表
+
+    onMounted(() => {
+      echartsfun()
+    })
+
+    return {
+      refecharts, loading1
+    }
+  }
 }
 </script>
 

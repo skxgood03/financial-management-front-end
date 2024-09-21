@@ -7,7 +7,6 @@
 import * as echarts from 'echarts';
 import {ref, onMounted, watch} from "vue"
 
-
 export default {
   props: {
     data: {
@@ -16,17 +15,17 @@ export default {
     }
   },
   setup(props: any) {
-    const transactionPartners = props.data.get_expense_by_category.map((item: any) => item.transaction_partner)
-    const total_expense = props.data.get_expense_by_category.map((item: any) => item.total_expense)
-    const expense_count = props.data.get_expense_by_category.map((item: any) => item.expense_count) // 添加支出次数数据
-    const totalExpense = props.data.get_expense_by_category.reduce((sum: number, item: any) => sum + item.total_expense, 0);
-    const loading = ref(true)
+
     const main = ref()
-    const setecharts = () => {
-      const myChart = echarts.init(main.value)
-      let option = {
+    const echartsfun = () => {
+      const transactionPartners = props.data.sum_expense_by_category.map((item: any) => item.transaction_partner)
+      const total_expense = props.data.sum_expense_by_category.map((item: any) => item.total_expense)
+      const expense_count = props.data.sum_expense_by_category.map((item: any) => item.expense_count) // 添加支出次数数据
+      const totalExpense = props.data.sum_expense_by_category.reduce((sum: number, item: any) => sum + item.total_expense, 0);
+      const myChart = echarts.init(main.value);
+      const option = {
         title: {
-          text: '正常支出',
+          text: '总支出',
           subtext: `总支出 (总计: ${totalExpense} 元)`,
           left: 'center'
         },
@@ -71,29 +70,31 @@ export default {
             yAxisIndex: 1 // 对应第二个Y轴（次数）
           }
         ]
-      }
+      };
+
       option && myChart.setOption(option);
     }
     watch(() => props.data, () => {
-      setecharts()
+      echartsfun()
     }, {deep: true})  //开启深度监听，当props更新时，更新echarts图表
 
     onMounted(() => {
-      setecharts()
-
+      echartsfun()
     })
 
     return {
-      main, loading
+      main
     }
-
   }
 }
+
+
 </script>
 
 <style scoped>
 .interior {
   height: 330px;
-  width: 615px
+  width: 615px;
+  top:20px;
 }
 </style>

@@ -47,27 +47,29 @@
 
         </div>
       </div>
-      <!--            &lt;!&ndash; 下部分 &ndash;&gt;-->
-      <!--            <div class="box">-->
-      <!--                <div>-->
-      <!--                    <dv-border-box7 class="frame">-->
-      <!--                        <IndexData7></IndexData7>-->
-      <!--                    </dv-border-box7>-->
+      <!-- 下部分 -->
+      <div class="box">
+        <div>
+          <dv-border-box7 class="frame">
+            <dv-loading v-if="loading1"></dv-loading>
+            <IndexData7 :data="data1.list" v-else></IndexData7>
+          </dv-border-box7>
 
-      <!--                </div>-->
-      <!--                <div>-->
-      <!--                    <dv-border-box8 class="frame">-->
-      <!--                        <IndexData8></IndexData8>-->
-      <!--                    </dv-border-box8>-->
+        </div>
+        <div>
+          <dv-border-box8 class="frame">
+            <dv-loading v-if="loading1"></dv-loading>
+            <IndexData8 :data="data1.list" v-else></IndexData8>
+          </dv-border-box8>
 
-      <!--                </div>-->
-      <!--                <div>-->
-      <!--                    <dv-border-box9 class="frame">-->
-      <!--                        <IndexData9></IndexData9>-->
-      <!--                    </dv-border-box9>-->
+        </div>
+<!--        <div>-->
+<!--          <dv-border-box9 class="frame">-->
+<!--            <IndexData9></IndexData9>-->
+<!--          </dv-border-box9>-->
 
-      <!--                </div>-->
-      <!--            </div>-->
+<!--        </div>-->
+      </div>
     </dv-border-box11>
 
   </AdaptiveView>
@@ -114,7 +116,7 @@ export default {
 
   components: {
     // AdaptiveView, IndexData1, IndexData2, IndexData3, IndexData4, IndexData5, IndexData6, IndexData7, IndexData8, IndexData9
-    AdaptiveView, IndexData1, IndexData2, IndexData3, IndexData4,IndexData5,IndexData6
+    AdaptiveView, IndexData1, IndexData2, IndexData3, IndexData4,IndexData5,IndexData6,IndexData7,IndexData8
   }
 }
 </script>

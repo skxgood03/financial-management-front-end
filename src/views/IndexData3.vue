@@ -15,40 +15,64 @@ export default {
     }
   },
   setup(props: any) {
-    const loading1 = ref(true)
+
     const refecharts = ref()
     const echartsfun = () => {
-      const datas = props.data.get_expense_by_method
+      const transactionPartners = props.data.sum_expense_by_partner.map((item: any) => item.transaction_partner)
+      const total_expense = props.data.sum_expense_by_partner.map((item: any) => item.total_expense)
+      const expense_count = props.data.sum_expense_by_partner.map((item: any) => item.expense_count) // 添加支出次数数据
+      const totalExpense = props.data.sum_expense_by_partner.reduce((sum: number, item: any) => sum + item.total_expense, 0);
       const myChart = echarts.init(refecharts.value);
       const option = {
-        tooltip: {
-          trigger: 'item',
-          formatter: (params: any) => {
-      // 自定义 tooltip 显示，包含支出金额和支出次数
-      return `${params.name}<br/>支出金额: ${params.value} 元<br/>支出次数: ${params.data.expense_count} 次`;
-    }
-        },
-        legend: {
-          top: '1%',
+        title: {
+          text: '总支出',
+          subtext: `总支出 (总计: ${totalExpense} 元)`,
           left: 'center'
         },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          },
+          backgroundColor: '#fff', // 悬浮框背景色
+          borderColor: '#000', // 悬浮框边框颜色
+          borderWidth: 1, // 悬浮框边框宽度
+          textStyle: { // 悬浮框文字样式
+            color: '#000',
+            fontSize: 12
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: transactionPartners
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: '金额（元）' // Y轴名称
+          },
+          {
+            type: 'value',
+            name: '次数' // 第二个Y轴，用于展示支出次数
+          }
+        ],
         series: [
           {
-            name: 'Access From',
-            type: 'pie',
-            radius: ["40%", "60%"],
-            data: datas ,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
+            name: '支出金额',
+            type: 'bar',
+            data: total_expense,
+            yAxisIndex: 0 // 对应第一个Y轴（金额）
+          },
+          {
+            name: '支出次数',
+            type: 'line',
+            data: expense_count,
+            yAxisIndex: 1 // 对应第二个Y轴（次数）
           }
         ]
       };
-      myChart.setOption(option);
+
+      option && myChart.setOption(option);
     }
     watch(() => props.data, () => {
       echartsfun()
@@ -59,16 +83,17 @@ export default {
     })
 
     return {
-      refecharts, loading1
+      refecharts
     }
   }
 }
+
 </script>
 
 <style scoped>
 .interior {
   height: 330px;
   width: 615px;
-  top:20px;
+  top: 20px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
 
-  <div ref="refecharts" class="interior">
+  <div ref="main" class="interior">
   </div>
 </template>
 
@@ -8,7 +8,6 @@
 import {info1} from "./api"
 import {ref, onMounted, nextTick, watch} from "vue"
 import * as echarts from 'echarts';
-
 export default {
   props: {
     data: {
@@ -19,22 +18,23 @@ export default {
   setup(props: any) {
 
     const loading1 = ref(true)
-    const refecharts = ref()
+    const main = ref()
     const echartsfun = () => {
-      const datas = props.data.get_transfer_expense_by_partner
+      const datas = props.data.get_income
       const totalExpense = datas.reduce((sum: number, item: any) => sum + item.value, 0);
-      const myChart = echarts.init(refecharts.value);
+
+      const myChart = echarts.init(main.value);
       const option = {
         title: {
-          text: '转账',
-          subtext: `非正常支出 (总计: ${totalExpense} 元)`,
+          text: '总收入',
+          subtext: ` (总计: ${totalExpense} 元)`,
           left: 'center'
         },
         tooltip: {
           trigger: 'item',
           formatter: (params: any) => {
             // 自定义 tooltip 显示，包含支出金额和支出次数
-            return `${params.name}<br/>支出金额: ${params.value} 元<br/>支出次数: ${params.data.expense_count} 次<br/>`;
+            return `${params.name}<br/>收入金额: ${params.value} 元<br/>收入次数: ${params.data.total_expense} 次<br/>`;
           }
 
         },
@@ -44,7 +44,7 @@ export default {
         },
         series: [
           {
-            name: '转账',
+            name: '111',
             type: 'pie',
             radius: '50%',
             data: datas,
@@ -70,9 +70,10 @@ export default {
     })
 
     return {
-      refecharts, loading1
+      main, loading1
     }
   }
+
 }
 </script>
 

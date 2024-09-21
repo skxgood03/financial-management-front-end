@@ -18,51 +18,48 @@ export default {
   },
   setup(props: any) {
 
+    const loading1 = ref(true)
     const refecharts = ref()
     const echartsfun = () => {
-      const transactionPartners = props.data.get_income_per_day.map((item: any) => item.transaction_date)
-      const total_expense = props.data.get_income_per_day.map((item: any) => item.daily_income)
-      const totalExpense = props.data.get_income_per_day.reduce((sum: number, item: any) => sum + item.daily_income, 0);
+      const datas = props.data.get_transfer_expense_by_partner
+      const totalExpense = datas.reduce((sum: number, item: any) => sum + item.value, 0);
       const myChart = echarts.init(refecharts.value);
       const option = {
         title: {
-          text: '支付宝收益',
-          subtext: `总收益 (总计: ${totalExpense} 元)`,
+          text: '转账支出',
+          subtext: `非正常支出 (总计: ${totalExpense} 元)`,
           left: 'center'
         },
         tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          },
-          backgroundColor: '#fff', // 悬浮框背景色
-          borderColor: '#000', // 悬浮框边框颜色
-          borderWidth: 1, // 悬浮框边框宽度
-          textStyle: { // 悬浮框文字样式
-            color: '#000',
-            fontSize: 12
+          trigger: 'item',
+          formatter: (params: any) => {
+            // 自定义 tooltip 显示，包含支出金额和支出次数
+            return `${params.name}<br/>支出金额: ${params.value} 元<br/>支出次数: ${params.data.expense_count} 次<br/>`;
           }
-        },
-        xAxis: {
-          type: 'category',
 
-          data: transactionPartners
         },
-        yAxis:
-            {
-              type: 'value',
-              name: '金额（元）' // Y轴名称
-            },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
         series: [
           {
-            name: '支出金额',
-            type: 'bar',
-            data: total_expense
+            name: '转账',
+            type: 'pie',
+            radius: '50%',
+            data: datas,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
           }
         ]
       };
-
-      option && myChart.setOption(option);
+      myChart.clear(); //是否把之前的缓存给清除掉，提高性能，清除掉后在重新进行渲染,如何需要更换不同的表，建议加上，清除缓存
+      myChart.setOption(option, true);
     }
     watch(() => props.data, () => {
       echartsfun()
@@ -73,7 +70,7 @@ export default {
     })
 
     return {
-      refecharts
+      refecharts, loading1
     }
   }
 }
