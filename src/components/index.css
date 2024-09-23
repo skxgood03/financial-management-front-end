@@ -1,9 +1,19 @@
-body{
-    background-color: black;    
+body {
+    background-color: #ffffff;
+    /*background-image: url('4eb623ee0f4f0a2a04f8a0cce1d713c3_cleanup.jpeg'); !* 设置图片路径 *!*/
+    background-size: cover; /* 背景图覆盖整个元素 */
+    background-repeat: no-repeat; /* 背景图不重复 */
+    background-position: center; /* 背景图居中 */
+    width: 300px; /* 元素宽度 */
+    height: 200px; /* 元素高度 */
+
 }
-*{
+
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    /* 设置一个div的背景图 */
+
 
 }

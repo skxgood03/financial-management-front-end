@@ -16,4 +16,5 @@ module.exports = {
     },
     publicPath: '/', // 公共路径
     outputDir: 'dist', // 输出目录
+
 };

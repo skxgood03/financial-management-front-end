@@ -70,6 +70,7 @@ export default {
 <style scoped>
 .interior {
     height: 330px;
-    width: 615px
+    width: 615px;
+  top:20px;
 }
 </style>

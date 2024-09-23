@@ -21,22 +21,17 @@ export default {
     const loading1 = ref(true)
     const refecharts = ref()
     const echartsfun = () => {
-      const datas = props.data.get_transfer_expense_by_partner
-      const totalExpense = datas.reduce((sum: number, item: any) => sum + item.value, 0);
+      const datas = props.data.revenue_and_expenditure
+
       const myChart = echarts.init(refecharts.value);
       const option = {
         title: {
-          text: '转账支出',
-          subtext: `非正常支出 (总计: ${totalExpense} 元)`,
+          text: '总收入 vs 总支出',
           left: 'center'
         },
         tooltip: {
           trigger: 'item',
-          formatter: (params: any) => {
-            // 自定义 tooltip 显示，包含支出金额和支出次数
-            return `${params.name}<br/>支出金额: ${params.value} 元<br/>支出次数: ${params.data.expense_count} 次<br/>`;
-          }
-
+          formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
         legend: {
           orient: 'vertical',
@@ -44,10 +39,13 @@ export default {
         },
         series: [
           {
-            name: '转账',
+            name: '总收入 vs 总支出',
             type: 'pie',
             radius: '50%',
-            data: datas,
+            data: [
+              {value: datas["zsr_num"], name: '总收入'},
+              {value: datas["zzc_num"], name: '总支出'}
+            ],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -80,6 +78,6 @@ export default {
 .interior {
   height: 330px;
   width: 615px;
-  top:20px;
+  top: 20px;
 }
 </style>
