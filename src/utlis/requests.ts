@@ -1,18 +1,17 @@
 import axios from "axios"
 
 const requests = axios.create({
-    baseURL:"http://127.0.0.1:8000" //这里放接口请求域名
-}) 
+    baseURL: process.env.VUE_APP_BASE_API //这里放接口请求域名
+})
 
 
-
-requests.interceptors.request.use(config=>{ //我这里写请拦截器 给每个请求加上请求头
+requests.interceptors.request.use(config => { //我这里写请拦截器 给每个请求加上请求头
     return config
 })
 
 
-requests.interceptors.response.use(config=>{ //这里我写了一个响应拦截器，这里对所有接口返回值是code的在控制台上打印响应成功
-    if(config.data.code == 200){
+requests.interceptors.response.use(config => { //这里我写了一个响应拦截器，这里对所有接口返回值是code的在控制台上打印响应成功
+    if (config.data.code == 200) {
         return config
     }
     return config

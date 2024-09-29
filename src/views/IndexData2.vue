@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import {info1} from "./api"
+
 import {ref, onMounted, nextTick, watch} from "vue"
 import * as echarts from 'echarts';
 export default {

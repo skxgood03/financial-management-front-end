@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import {info2} from "./api"
+
 import {ref, onMounted, nextTick, watch} from "vue"
 import * as echarts from 'echarts';
 

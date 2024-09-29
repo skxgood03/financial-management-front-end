@@ -7,59 +7,10 @@ export function info(date:string){
         method:"GET"
     })
 }
-// 饼图接口
-export function info1(){
+
+export function total(date:string){
     return requests({
-        url:"/total_consumption",
-        method:"GET"
-    })
-}
-// //环形图接口
-export function info2(){
-    return requests({
-        url:"/total_consumption",
-        method:"GET"
-    })
-}
-// //柱状图接口
-export function info3(){
-    return requests({
-        url:"/total_consumption",
-        method:"GET"
-    })
-}
-// 折线图接口
-export function info4(){
-    return requests({
-        url:"/api/info4",
-        method:"GET"
-    })
-}
-// 折线图接口
-export function info5(){
-    return requests({
-        url:"/api/info5",
-        method:"GET"
-    })
-}
-// 折线图接口
-export function info6(){
-    return requests({
-        url:"/api/info6",
-        method:"GET"
-    })
-}
-// 折线图接口
-export function info7(){
-    return requests({
-        url:"/api/info7",
-        method:"GET"
-    })
-}
-// 折线图接口
-export function info8(){
-    return requests({
-        url:"/api/info8",
+        url:`/annual_income?date=${date}`,
         method:"GET"
     })
 }

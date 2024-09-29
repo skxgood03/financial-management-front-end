@@ -1,10 +1,8 @@
 <template>
-  <router-link to="/year" style="color: #dcdfe6">跳转</router-link>
   <AdaptiveView>
 
-    <dv-border-box11 title="私人财务报表" :title-width="400" :animate="false"
+    <dv-border-box11 title="私人财务年度报表" :title-width="400" :animate="false"
                      class="box-title"
-
     >
 
 
@@ -13,73 +11,73 @@
         <div>
           <dv-border-box1 class="frame" @click="showDatePicker = true">
             <dv-loading v-if="loading1"></dv-loading>
-            <IndexData1 :data="data1.list" v-else></IndexData1>
+            <AnnualIncome :data="data1.list" v-else></AnnualIncome>
           </dv-border-box1>
         </div>
         <div>
           <dv-border-box2 class="frame">
             <dv-loading v-if="loading1"></dv-loading>
-            <IndexData2 :data="data1.list" v-else></IndexData2>
+            <MonthlyIncome :data="data1.list" v-else></MonthlyIncome>
           </dv-border-box2>
 
         </div>
         <div>
           <dv-border-box3 class="frame">
             <dv-loading v-if="loading1"></dv-loading>
-            <IndexData3 :data="data1.list" v-else></IndexData3>
+            <MonthlyAnnualExpenditure :data="data1.list" v-else></MonthlyAnnualExpenditure>
           </dv-border-box3>
 
         </div>
       </div>
 
-      <!-- 中部分 -->
-      <div class="box">
+      <!--      &lt;!&ndash; 中部分 &ndash;&gt;-->
+      <!--      <div class="box">-->
 
-        <div>
-          <dv-border-box4 class="frame">
-            <dv-loading v-if="loading1"></dv-loading>
-            <IndexData4 :data="data1.list" v-else></IndexData4>
-          </dv-border-box4>
+      <!--        <div>-->
+      <!--          <dv-border-box4 class="frame">-->
+      <!--            <dv-loading v-if="loading1"></dv-loading>-->
+      <!--            <IndexData4 :data="data1.list" v-else></IndexData4>-->
+      <!--          </dv-border-box4>-->
 
-        </div>
-        <div>
-          <dv-border-box5 class="frame">
-            <dv-loading v-if="loading1"></dv-loading>
-            <IndexData5 :data="data1.list" v-else></IndexData5>
-          </dv-border-box5>
-        </div>
-        <div>
-          <dv-border-box6 class="frame">
-            <dv-loading v-if="loading1"></dv-loading>
-            <IndexData6 :data="data1.list" v-else></IndexData6>
-          </dv-border-box6>
+      <!--        </div>-->
+      <!--        <div>-->
+      <!--          <dv-border-box5 class="frame">-->
+      <!--            <dv-loading v-if="loading1"></dv-loading>-->
+      <!--            <IndexData5 :data="data1.list" v-else></IndexData5>-->
+      <!--          </dv-border-box5>-->
+      <!--        </div>-->
+      <!--        <div>-->
+      <!--          <dv-border-box6 class="frame">-->
+      <!--            <dv-loading v-if="loading1"></dv-loading>-->
+      <!--            <IndexData6 :data="data1.list" v-else></IndexData6>-->
+      <!--          </dv-border-box6>-->
 
-        </div>
-      </div>
-      <!-- 下部分 -->
-      <div class="box">
-        <div>
-          <dv-border-box7 class="frame" backgroundColor="#ffffff">
-            <dv-loading v-if="loading1"></dv-loading>
-            <IndexData7 :data="data1.list" v-else></IndexData7>
-          </dv-border-box7>
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      &lt;!&ndash; 下部分 &ndash;&gt;-->
+      <!--      <div class="box">-->
+      <!--        <div>-->
+      <!--          <dv-border-box7 class="frame" backgroundColor="#ffffff">-->
+      <!--            <dv-loading v-if="loading1"></dv-loading>-->
+      <!--            <IndexData7 :data="data1.list" v-else></IndexData7>-->
+      <!--          </dv-border-box7>-->
 
-        </div>
-        <div>
-          <dv-border-box8 class="frame">
-            <dv-loading v-if="loading1"></dv-loading>
-            <IndexData8 :data="data1.list" v-else></IndexData8>
-          </dv-border-box8>
+      <!--        </div>-->
+      <!--        <div>-->
+      <!--          <dv-border-box8 class="frame">-->
+      <!--            <dv-loading v-if="loading1"></dv-loading>-->
+      <!--            <IndexData8 :data="data1.list" v-else></IndexData8>-->
+      <!--          </dv-border-box8>-->
 
-        </div>
-        <div>
-          <dv-border-box9 class="frame">
-            <dv-loading v-if="loading1"></dv-loading>
-            <IndexData9 :data="data1.list" v-else></IndexData9>
-          </dv-border-box9>
+      <!--        </div>-->
+      <!--        <div>-->
+      <!--          <dv-border-box9 class="frame">-->
+      <!--            <dv-loading v-if="loading1"></dv-loading>-->
+      <!--            <IndexData9 :data="data1.list" v-else></IndexData9>-->
+      <!--          </dv-border-box9>-->
 
-        </div>
-      </div>
+      <!--        </div>-->
+      <!--      </div>-->
 
     </dv-border-box11>
     <!-- Element Plus 日期选择器 -->
@@ -111,17 +109,13 @@
 </template>
 <script lang="ts">
 import {ref, onMounted, reactive} from "vue"
-import IndexData1 from './IndexData1.vue';
-import IndexData2 from './IndexData2.vue';
-import IndexData3 from './IndexData3.vue';
-import IndexData4 from './IndexData4.vue';
-import IndexData5 from './IndexData5.vue';
-import IndexData6 from './IndexData6.vue';
-import IndexData7 from './IndexData7.vue';
-import IndexData8 from './IndexData8.vue';
-import IndexData9 from './IndexData9.vue';
+import AnnualIncome from './AnnualIncome.vue';
+import MonthlyIncome from './MonthlyIncome.vue';
+import MonthlyAnnualExpenditure from './MonthlyAnnualExpenditure.vue';
+
+
 import AdaptiveView from '@/components/AdaptiveView.vue';
-import {info} from './api';
+import {total} from './api';
 import 'element-plus/theme-chalk/el-date-picker.css'; // 引入样式
 
 
@@ -168,7 +162,7 @@ export default {
 
     const getdata = async (date: string) => {
       loading1.value = true
-      const {data} = await info(date);
+      const {data} = await total(date);
 
       loading1.value = false
       data1.list = data
@@ -176,7 +170,7 @@ export default {
     };
     onMounted(() => {
 
-      getdata(getCurrentYearMonth())
+      getdata("2024")
 
 
     })
@@ -191,15 +185,14 @@ export default {
 
   components: {
     AdaptiveView,
-    IndexData1,
-    IndexData2,
-    IndexData3,
-    IndexData4,
-    IndexData5,
-    IndexData6,
-    IndexData7,
-    IndexData8,
-    IndexData9
+    AnnualIncome,
+    MonthlyIncome,
+    MonthlyAnnualExpenditure
+    // IndexData5,
+    // IndexData6,
+    // IndexData7,
+    // IndexData8,
+    // IndexData9
 
   }
 }
